@@ -16,5 +16,5 @@ def updateReport(id, tipo, fallo, descripcion):
         return True
 
     except Exception as err:
-        print(err)
+        print('error')
         return False

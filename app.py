@@ -36,16 +36,15 @@ def create():
         print(error);
         return {'mensaje':'arregla esa monda'}
 
-@app.route("/update", methods=["PUT"])
-def update():
+@app.route("/update/<id>", methods=["PUT"])
+def update(id):
     try:
         add = request.json
-        id = add['id']
         tipo = add['tipo']
         fallo = add['fallo']
         descripcion = add['descripcion']
 
-        if updateReport(tipo, fallo, descripcion):
+        if updateReport(id, tipo, fallo, descripcion):
             return jsonify({'mensaje':'reporte actualizado'})
         else:
             return jsonify({'mensaje':'error al actualizar el reporte'})
