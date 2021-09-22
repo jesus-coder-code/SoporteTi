@@ -1,9 +1,12 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from database.db import connection
 from database.getData import getReport
 from database.postData import createReport
+from database.updateData import updateReport
 import os
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/get", methods=['GET'])
 def get():
@@ -23,6 +26,7 @@ def create():
         tipo = add['tipo']
         fallo = add['fallo']
         descripcion = add['descripcion']
+
         if createReport(tipo, fallo, descripcion):
             return jsonify({'mensaje':'reporte creado'})
         else:
@@ -31,6 +35,23 @@ def create():
     except Exception as error:
         print(error);
         return {'mensaje':'arregla esa monda'}
+
+@app.route("/update", methods=["PUT"])
+def update():
+    try:
+        add = request.json
+        id = add['id']
+        tipo = add['tipo']
+        fallo = add['fallo']
+        descripcion = add['descripcion']
+
+        if updateReport(tipo, fallo, descripcion):
+            return jsonify({'mensaje':'reporte actualizado'})
+        else:
+            return jsonify({'mensaje':'error al actualizar el reporte'})
+    except:
+        return jsonify({'mensaje':'hubo un error inesperado'})
+
 
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 5000))
