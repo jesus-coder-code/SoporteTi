@@ -1,5 +1,6 @@
 import mysql.connector;
 
+#conexion a nuestra base de datos
 def connection():
     db = mysql.connector.connect(
         host = "mysql-jesus.alwaysdata.net",
